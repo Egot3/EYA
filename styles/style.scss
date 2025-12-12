@@ -1,0 +1,75 @@
+@use 'variables';
+@use 'sass:color';
+
+window.Bar {
+  background: transparent;
+  color: variables.$tx-color;
+  //font-weight: bold;
+  margin: 0px;
+  //min-height: 1.5rem;
+  > centerbox { 
+    background: variables.$bg-color;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+  button {
+    border-radius: 8px;
+    margin: 2px;
+  }
+}
+
+.workspace.active{
+  font-weight: bold;
+  background-color:variables.$ac-color;
+}
+
+.playerHolder{
+  min-width: 400px;
+  background-color: rgba(white, 0.05);
+  border-radius: 8px;
+  margin: 2px;
+}
+
+.sliderHolder{
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.title{
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: -0.15rem;
+}
+
+
+
+.creator, .album{
+  //margin- 
+  font-size:  0.5rem;
+}
+
+.positionSlider{
+  min-width: 10rem;
+}
+
+
+
+.imageWrapper{
+  min-width: 26px;
+  min-height: 26px;
+  border-radius: 12px;
+  overflow:hidden;
+}
+
+image{
+  border-radius:1000rem ;
+  margin: 0.4rem;
+}
+
+scale trough highlight {
+  border: 0.15rem solid variables.$ac-color
+}
+
+
