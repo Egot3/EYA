@@ -3,7 +3,8 @@ import { Astal, Gtk, Gdk } from "ags/gtk4"
 import { execAsync } from "ags/process"
 import Time from './Time' 
 import Workspaces from "./Workspace"
-import Player from "./Player"
+import Player from "./Player/Player"
+import Controls from "./Player/Controls"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   
@@ -23,9 +24,12 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 	<box $type="start">
 		<Workspaces/>
 	</box>
-        <box $type="center">
+        <menubutton $type="center">
 		<Player/>
-	</box>
+		<popover>
+			<Controls/>
+		</popover>
+	</menubutton>
         <menubutton $type="end" hexpand halign={Gtk.Align.END}>
           <Time /> 
           <popover>
