@@ -1,51 +1,62 @@
-import { For,  createBinding, createState, createEffect, createComputed } from 'ags'
-import { currentPlayer, setIsExpanded } from "./Variables.tsx" //TODO in github
+import { With,  createBinding, createState, createEffect, createComputed } from 'ags'
+import { currentPlayer, setIsExpanded, isExpanded } from "./Variables.tsx" //TODO in github
 import AstalMpris from "gi://AstalMpris"
 import Adw from "gi://Adw"
 import { Gtk } from "ags/gtk4"
+import logger from "../../utils/logger"
+import Controls from "./Controls"
 
 // this comment was made at time when I decided to make widget have minor and major versions via scss, 12/13/25 19:00
-
+// no scss will fix it
 
 const Player = () => {
     	console.log("render")
-
-	const player = currentPlayer()
-	if(player){
-	const playerPositionBinding = createBinding(player, 'position')
-	const playerPlaybackStatusBinding = createBinding(player, 'playbackStatus')
 		
 	const [isDragged, setIsDragged] = createState<boolean>(false) //define uselessness
 	const [sliderValue, setSliderValue] = createState<number>(0)
-				
-	createEffect(()=>{
+	
+		createEffect(()=>{
+		const player = currentPlayer()
 		const dragging = isDragged()
-		const position = playerPositionBinding() //maybe () used wrong //it is //no it wasn't
-		console.log("effect's effect: drag:", dragging, "position:", position)
-		if(!dragging){
-			console.log('completely ordinary situation')
-			setSliderValue(position)
-		}
+		
+		if(!player||dragging){
+			return	
+		}	
+		const playerPositionBinding = createBinding(player, 'position')
+		const position = playerPositionBinding() //maybe () used wrong //it is //no it wasn't		
+		//console.log('completely ordinary situation')
+		setSliderValue(position)
+		
 	})
 			
 	createEffect(()=>{
 		console.log("drag changed:", isDragged())
 	}) //my friendship with createComputed is over, now createEffect is my best friend
+	
 
-	return(	
-		<With value={player}>
-		{(player)=>
-			<box orientation={Gtk.Orientation.VERTICAL}>
 
+	return(
+		<With value={currentPlayer}>
+		{(player) => {
+
+			console.log("<with>:", player?.identity || 'Not found')
+			
+			if(player){
+				return(
+			
+			<box class={"playerContainer"}
+			
+			orientation={Gtk.Orientation.HORIZONTAL}
+			> {/*those classes must be renamed*/}
 			<Gtk.EventControllerMotion
 				propagationPhase={Gtk.PropagationPhase.CAPTURE}
 				onEnter={()=>{
-					popoverRef?.popup()
 					setIsExpanded(true)
+					logger("movement detected")
 				}}
 				onLeave={()=>{
-					popoverRef?.popdown()
 					setIsExpanded(false)
+					logger("no movement detected")
 				}}
 			/>
 
@@ -54,11 +65,9 @@ const Player = () => {
 			<box $type="start">	
 			<box
   				css="
-  				border-radius: 8px;
-				min-width: 0px;
-				min-height: 0px;
-				padding: 0;
-  				"
+  				border-radius: 4px;
+				margin: 5px;	
+				"
   				overflow={Gtk.Overflow.HIDDEN}
 				hexpand={false}
 				vexpand={false}
@@ -126,25 +135,29 @@ const Player = () => {
             /> {/*to my future self(or if somebody discovers this): always use gestures on boxes*/}
 	    </box>
         			</centerbox>
-			</Adw.Clamp>
-
+				
+				</Adw.Clamp>	
+			<Controls/>	
 			{/*extended*/}
 			
 			{/*301*/}
-			
+				
 			</box>
 	
-	//}//arrow function(sounds redutant, but is not) //wasn't but now is  
-	
-	}</With>)}
-	else{
-		return(
-			<box>
-				<label label="no player found"/>
-			</box>
-		)
-	}
+				)}
+			else{
+				return(
+				<box>
+					<label label="not found!"/>
+				</box>
+				)
+			}
+		}}
+		</With>
+	)
 }
+
+
 
 export { Player } //22:35, apperantly
 export default Player;
