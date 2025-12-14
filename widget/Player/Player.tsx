@@ -1,8 +1,10 @@
 import { With,  createBinding, createState, createEffect, createComputed } from 'ags'
-import { currentPlayer, setIsExpanded } from "./Variables.tsx" //TODO in github
+import { currentPlayer, setIsExpanded, isExpanded } from "./Variables.tsx" //TODO in github
 import AstalMpris from "gi://AstalMpris"
 import Adw from "gi://Adw"
 import { Gtk } from "ags/gtk4"
+import logger from "../../utils/logger"
+import Controls from "./Controls"
 
 // this comment was made at time when I decided to make widget have minor and major versions via scss, 12/13/25 19:00
 // no scss will fix it
@@ -13,24 +15,16 @@ const Player = () => {
 	const [isDragged, setIsDragged] = createState<boolean>(false) //define uselessness
 	const [sliderValue, setSliderValue] = createState<number>(0)
 	
-
-	createEffect(()=>{
+		createEffect(()=>{
 		const player = currentPlayer()
 		const dragging = isDragged()
-
-		console.log('Effect: player:', player?.identity || 'none', "dragging:", dragging)
-
+		
 		if(!player||dragging){
 			return	
-		}
-		
+		}	
 		const playerPositionBinding = createBinding(player, 'position')
-		const playerPlaybackStatusBinding = createBinding(player, 'playbackStatus')
-
-		const position = playerPositionBinding() //maybe () used wrong //it is //no it wasn't
-		console.log("effect's effect: drag:", dragging, "position:", position)
-		
-		console.log('completely ordinary situation')
+		const position = playerPositionBinding() //maybe () used wrong //it is //no it wasn't		
+		//console.log('completely ordinary situation')
 		setSliderValue(position)
 		
 	})
@@ -49,17 +43,20 @@ const Player = () => {
 			
 			if(player){
 				return(
-			<box orientation={Gtk.Orientation.VERTICAL}>
-
+			
+			<box class={"playerContainer"}
+			
+			orientation={Gtk.Orientation.HORIZONTAL}
+			> {/*those classes must be renamed*/}
 			<Gtk.EventControllerMotion
 				propagationPhase={Gtk.PropagationPhase.CAPTURE}
 				onEnter={()=>{
-					popoverRef?.popup()
 					setIsExpanded(true)
+					logger("movement detected")
 				}}
 				onLeave={()=>{
-					popoverRef?.popdown()
 					setIsExpanded(false)
+					logger("no movement detected")
 				}}
 			/>
 
@@ -138,14 +135,14 @@ const Player = () => {
             /> {/*to my future self(or if somebody discovers this): always use gestures on boxes*/}
 	    </box>
         			</centerbox>
-			</Adw.Clamp>
-
+				
+				</Adw.Clamp>	
+			<Controls/>	
 			{/*extended*/}
 			
 			{/*301*/}
-			
+				
 			</box>
-	
 	
 				)}
 			else{

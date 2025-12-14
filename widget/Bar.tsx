@@ -24,19 +24,19 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 	<box $type="start">
 		<Workspaces/>
 	</box>
-        <menubutton $type="center" hexpand halign={Gtk.Align.CENTER}>
+        <box $type="center" hexpand halign={Gtk.Align.CENTER}>
 		<Player/>
-		<popover>
-			<Controls/>
-		</popover>
-	</menubutton>
-        <menubutton $type="end" hexpand halign={Gtk.Align.END}>
+		
+	</box>
+        <menubutton
+	$type="end" hexpand halign={Gtk.Align.END}>
           <Time /> 
           <popover>
             <Gtk.Calendar />
           </popover>
         </menubutton>
       </centerbox>
+      
     </window>
   )
 }
