@@ -1,5 +1,6 @@
 import AstalMpris from "gi://AstalMpris"	//new start of old tree
 import {createBinding, createState, createComputed} from 'ags'
+import logger from "../../utils/logger"
 
 const mpris = AstalMpris.get_default()
 
@@ -8,21 +9,29 @@ const [chosenPlayerIdentity, setChosenPlayerIdentity] = createState<string>("Spo
 
 const players = createBinding(mpris, 'players')
 
-const currentPlayer = createComputed(()=>{
-	const iden = chosenPlayerIdentity()
+const currentPlayer = createComputed(() => {
 	const availiblePlayers = players()
-	
-	console.log("Looking for player with identity:", iden);
-    	console.log("players avail:", availiblePlayers.map(p => p.identity));
-    
-    	const found = availiblePlayers.find(p => p.identity.toLowerCase() === iden.toLowerCase());
-    	console.log("player:", found?.identity || "null");
+	const targetIdentity = chosenPlayerIdentity()
 
-	return availiblePlayers.find(p => p.identity === iden) || null
-})
+	logger(`looking for player: ${targetIdentity}`, 100)
+	logger(`players avail: ${availiblePlayers}`)
+
+    
+    	let player = availiblePlayers.find(p =>
+        	p.identity.toLowerCase().includes(targetIdentity.toLowerCase())
+    	);
+
+    	if (player) {
+        	logger(`player: ${player.identity}`, 200)
+        	return player
+	}
+
+    	logger("Player not available at the moment", 300)
+    	return null
+});
 
 setTimeout(() => {
-    console.log("DEBUG - Players after delay:", players().map(p => p.identity));
+    logger(`Players after delay: ${currentPlayer().identity}`,100);
 }, 3000);
 
 export{

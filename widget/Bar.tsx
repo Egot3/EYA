@@ -24,7 +24,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 	<box $type="start">
 		<Workspaces/>
 	</box>
-        <menubutton $type="center">
+        <menubutton $type="center" hexpand halign={Gtk.Align.CENTER}>
 		<Player/>
 		<popover>
 			<Controls/>
