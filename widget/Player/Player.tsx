@@ -97,6 +97,9 @@ const Player = () => {
 				</centerbox>
 				</centerbox>{/*DOMAIN EXPANSION: CSS GRID CRUTCH*/}
 	       		</box>{/*which is general info*/}
+			<box visible={isExpanded}>
+				<Controls/>
+			</box>
 			</box>{/*which is center position*/}
 			
 			<box 
@@ -137,7 +140,6 @@ const Player = () => {
         			</centerbox>
 				
 				</Adw.Clamp>	
-			<Controls/>	
 			{/*extended*/}
 			
 			{/*301*/}
