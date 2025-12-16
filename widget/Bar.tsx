@@ -4,7 +4,6 @@ import { execAsync } from "ags/process"
 import Time from './Time' 
 import Workspaces from "./Workspace"
 import Player from "./Player/Player"
-import Controls from "./Player/Controls"
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
   
@@ -25,8 +24,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 		<Workspaces/>
 	</box>
         <box $type="center" hexpand halign={Gtk.Align.CENTER}>
-		<Player/>
-		
+		<Player/>	
 	</box>
         <menubutton
 	$type="end" hexpand halign={Gtk.Align.END}>

@@ -2,7 +2,7 @@ import AstalMpris from "gi://AstalMpris"
 import Adw from "gi://Adw"
 import { Gtk } from "ags/gtk4"
 import { createEffect, createComputed, createBinding, With } from "ags"
-import { currentPlayer, isExpanded } from "./Variables.tsx"
+import { currentPlayer } from "./Variables.tsx"
 import logger from "../../utils/logger"
 
 const Controls = () => {	
@@ -21,9 +21,8 @@ const Controls = () => {
 		return(
 		<box
 		overflow={Gtk.Overflow.HIDDEN} 
-		visible={isExpanded()}
 			>
-			<centerbox width-request={87} class={'controlsHolder', isExpanded() ? 'active' : 'retrieved'}>
+			<centerbox width-request={87} class={'controlsHolder'}>
 				<box $type='start'>
 					<button onClicked={()=>player.previous()}>
 						<image iconName="media-seek-backward-symbolic" pixelSize={26}/>

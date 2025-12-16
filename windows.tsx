@@ -1,10 +1,8 @@
 import app from "ags/gtk4/app"
 import Bar from './widget/Bar'
-import { ControlsWindow } from "./widget/Player/Controls/ControlsWindow"
 import { createBinding, For, This, onCleanup } from "ags"
 
 export function windows(){
-	ControlsWindow()
 
 	const monitors = createBinding(app, 'monitors')
 
