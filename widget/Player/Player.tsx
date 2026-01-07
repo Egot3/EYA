@@ -39,7 +39,7 @@ const Player = () => {
 		<With value={currentPlayer}>
 		{(player) => {
 
-			console.log("<with>:", player?.identity || 'Not found')
+			console.log("<With>:", player?.identity || 'Not found')
 			
 			if(player){
 				return(
@@ -150,7 +150,7 @@ const Player = () => {
 			else{
 				return(
 				<box>
-					<label label="not found!"/>
+				
 				</box>
 				)
 			}

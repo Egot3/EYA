@@ -19,18 +19,17 @@ const Controls = () => {
 				})
 
 		return(
-		<box
-		overflow={Gtk.Overflow.HIDDEN} 
-			>
-			<centerbox width-request={87} class={'controlsHolder'}>
-				<box $type='start'>
-					<button onClicked={()=>player.previous()}>
-						<image iconName="media-seek-backward-symbolic" pixelSize={26}/>
+			<Adw.Clamp class={"minHeight"} maximumSize={15} orientation={1}>
+		
+			<centerbox class={"minHeight"} width-request={87} height-request={15} class={'controlsHolder'}>
+				<box $type='start' class={"minHeight"}>
+					<button class={"minHeight"} onClicked={()=>player.previous()}>
+						<image iconName="media-seek-backward-symbolic" pixelSize={15}/>
 					</button>
 				</box>
-				<box $type='center'>
-					<button onClicked={()=>player.play_pause()}>
-			<image iconName={
+				<box class={"minHeight"} $type='center'>
+					<button class={"minHeight"} onClicked={()=>player.play_pause()}>
+			<image pixelSize={15} iconName={
 						createComputed(()=>isPlaying()===AstalMpris.PlaybackStatus.PLAYING
 						? "media-playback-pause-symbolic"
 						: "media-playback-start-symbolic"
@@ -39,13 +38,14 @@ const Controls = () => {
 			/>
 					</button>
 				</box>
-				<box $type='end'>
-					<button onClicked={()=>player.next()}>
-						<image iconName="media-seek-forward-symbolic" pixelSize={26}/>
+				<box $type='end' class={"minHeight"}>
+					<button class={"minHeight"} onClicked={()=>player.next()}>
+						<image iconName="media-seek-forward-symbolic" pixelSize={15}/>
 					</button>
 				</box>
 			</centerbox>
-			</box>
+			
+			</Adw.Clamp>
 		)}
 		else{
 			return(
